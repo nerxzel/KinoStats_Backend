@@ -11,11 +11,17 @@ public record TmdbMovieResponse (
     String title,
     Integer runtime,
     @JsonProperty("release_date") String releaseDate,
-    @JsonProperty("production_countries") List<ProductionCountry> productionCountries
+    @JsonProperty("production_countries") List<ProductionCountry> productionCountries,
+    @JsonProperty("genres") List<Genre> genres
 ){
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record ProductionCountry(
         @JsonProperty("iso_3166_1") String iso,
+        String name
+    ) {}
+
+    public record Genre(
+        @JsonProperty("id") Long id,
         String name
     ) {}
 }
