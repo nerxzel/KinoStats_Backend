@@ -1,12 +1,15 @@
 package com.mooncowpines.KinoStats.Controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mooncowpines.KinoStats.DTO.TmdbMovieResponse;
+import com.mooncowpines.KinoStats.DTO.MovieDetailsDTO;
+import com.mooncowpines.KinoStats.DTO.TmdbMovieSearchResponse;
 import com.mooncowpines.KinoStats.Service.TmdbService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,8 +22,13 @@ public class MovieSupplierController {
 
     @GetMapping("/{id}")
     ResponseEntity<?> getMovieDetails(@PathVariable Long id){
-        TmdbMovieResponse response = tmdbService.fetchMovie(id);
+        MovieDetailsDTO response = tmdbService.getMovieDetails(id);
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/search/{query}")
+    ResponseEntity<?> getSearchResults(@PathVariable String query){
+        List<TmdbMovieSearchResponse> responses = tmdbService.searchMovies(query);
+        return ResponseEntity.ok().body(responses);
+    }
 }

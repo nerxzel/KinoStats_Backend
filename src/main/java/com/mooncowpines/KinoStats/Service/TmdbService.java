@@ -1,11 +1,13 @@
 package com.mooncowpines.KinoStats.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.mooncowpines.KinoStats.DTO.MovieDetailsDTO;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieSearchResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieSearchResponseWrapper;
@@ -41,5 +43,24 @@ public class TmdbService {
             .block();
 
         return wrapper != null ? wrapper.results() : List.of();
+    }
+
+    public MovieDetailsDTO getMovieDetails(Long tmdbId){
+        TmdbMovieResponse response = fetchMovie(tmdbId);
+        return mapToDto(response);
+    }
+
+    public MovieDetailsDTO mapToDto(TmdbMovieResponse response) {
+        return new MovieDetailsDTO(
+            response.id(),
+            response.title(),
+            response.runtime(),
+            response.releaseDate(),
+            response.productionCountries().stream().map(c -> c.name()).collect(Collectors.joining(", ")),
+            response.genres().stream().map(g -> g.name()).collect(Collectors.joining(", ")),
+            response.backdropPath(),
+            response.posterPath(),
+            response.overview()
+        );
     }
 }
