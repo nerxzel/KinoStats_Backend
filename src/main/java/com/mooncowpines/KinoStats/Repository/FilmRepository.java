@@ -9,5 +9,5 @@ import com.mooncowpines.KinoStats.Model.Film;
 
 @Repository
 public interface FilmRepository extends JpaRepository<Film, Long> {
-    Optional<Film> findByApiId(Long apiId);
+    //Optional<Film> findByApiId(Long apiId);
 }

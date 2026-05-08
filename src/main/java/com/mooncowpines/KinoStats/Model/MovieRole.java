@@ -25,14 +25,14 @@ public class MovieRole {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "job_id")
     private Job job;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "person_id")
     private Person person;
 
     @ManyToOne
-    @JoinColumn(name = "api_id")
+    @JoinColumn(name = "film_id")
     private Film film;
 }

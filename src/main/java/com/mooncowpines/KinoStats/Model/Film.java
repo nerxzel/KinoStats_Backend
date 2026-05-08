@@ -27,11 +27,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Film {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(nullable = false)
-    private Long apiId;
 
     @Column(nullable = false)
     private String title;

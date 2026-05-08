@@ -35,7 +35,7 @@ public class Log {
     private Float rating;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", nullable = false)
+    @JoinColumn(name = "film_id", nullable = false)
     private Film film;
 
     @ManyToOne(fetch = FetchType.LAZY)

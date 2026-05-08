@@ -51,7 +51,7 @@ public class LogService {
         User user = userRepository.findById(logRequest.getUserId())
             .orElseThrow(() -> new EntityNotFoundException("User not found"));
 
-        Film film = filmRepository.findByApiId(logRequest.getFilmId())
+        Film film = filmRepository.findById(logRequest.getFilmId())
             .orElseGet(() -> fetchAndSaveFromTmdb(logRequest.getFilmId()));
         
         Log log = new Log();
@@ -69,7 +69,7 @@ public class LogService {
         TmdbMovieResponse response = tmdbService.fetchMovie(tmdbId);
 
         Film film = new Film();
-        film.setApiId(response.id());
+        film.setId(response.id());
         film.setTitle(response.title());
         film.setDateAddedToDB(LocalDate.now());
 
