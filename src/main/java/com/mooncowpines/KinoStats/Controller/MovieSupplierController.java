@@ -31,4 +31,10 @@ public class MovieSupplierController {
         List<TmdbMovieSearchResponse> responses = tmdbService.searchMovies(query);
         return ResponseEntity.ok().body(responses);
     }
+
+    /*@GetMapping("TEST")
+    ResponseEntity<?> getCredits(){
+        TmdbCreditsResponse response = tmdbService.fetchMovieCredits(129L);
+        return ResponseEntity.ok().body(response);
+    }*/
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.mooncowpines.KinoStats.DTO.MovieDetailsDTO;
+import com.mooncowpines.KinoStats.DTO.TmdbCreditsResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieSearchResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieSearchResponseWrapper;
@@ -48,6 +49,15 @@ public class TmdbService {
     public MovieDetailsDTO getMovieDetails(Long tmdbId){
         TmdbMovieResponse response = fetchMovie(tmdbId);
         return mapToDto(response);
+    }
+
+    public TmdbCreditsResponse fetchMovieCredits(Long tmdbId){
+        String path = String.format("/movie/%d/credits", tmdbId);
+        return webClient.get()
+            .uri(path)
+            .retrieve()
+            .bodyToMono(TmdbCreditsResponse.class)
+            .block();
     }
 
     public MovieDetailsDTO mapToDto(TmdbMovieResponse response) {
