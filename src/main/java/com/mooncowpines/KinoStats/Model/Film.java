@@ -42,6 +42,8 @@ public class Film {
 
     private LocalDate dateAddedToDB;
 
+    private String posterPath;
+
     @ManyToMany(cascade = {CascadeType.MERGE})
     @JoinTable(
         name = "film_genres",
