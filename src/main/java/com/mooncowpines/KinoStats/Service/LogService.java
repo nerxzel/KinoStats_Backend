@@ -1,7 +1,6 @@
 package com.mooncowpines.KinoStats.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -71,7 +70,7 @@ public class LogService {
                 .orElseGet(() -> fetchAndSaveFromTmdb(logRequest.getFilmId()));
 
         saveCredits(film);
-        
+
         Log log = new Log();
         log.setDate(logRequest.getDate());
         log.setReview(logRequest.getReview());

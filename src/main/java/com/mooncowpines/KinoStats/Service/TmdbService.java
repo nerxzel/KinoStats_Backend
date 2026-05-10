@@ -12,6 +12,8 @@ import com.mooncowpines.KinoStats.DTO.TmdbCreditsResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieSearchResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieSearchResponseWrapper;
+import com.mooncowpines.KinoStats.Model.MovieRole;
+import com.mooncowpines.KinoStats.Model.Person;
 
 @Service
 public class TmdbService {
@@ -61,6 +63,8 @@ public class TmdbService {
     }
 
     public MovieDetailsDTO mapToDto(TmdbMovieResponse response) {
+        TmdbCreditsResponse credits = fetchMovieCredits(response.id());
+
         return new MovieDetailsDTO(
             response.id(),
             response.title(),
@@ -70,7 +74,10 @@ public class TmdbService {
             response.genres().stream().map(g -> g.name()).collect(Collectors.joining(", ")),
             response.backdropPath(),
             response.posterPath(),
-            response.overview()
+            response.overview(),
+            credits.crew().stream().filter(member -> member.job().equals("Director"))
+                .map(member -> member.name())
+                .collect(Collectors.joining(", "))
         );
     }
 }

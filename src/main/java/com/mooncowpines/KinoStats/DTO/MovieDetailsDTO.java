@@ -10,7 +10,8 @@ public record MovieDetailsDTO (
     String genres,
     String backdropPath,
     String posterPath,
-    String overview
+    String overview,
+    String director
 ){    
 
 }
