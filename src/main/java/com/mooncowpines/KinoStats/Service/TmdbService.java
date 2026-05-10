@@ -12,8 +12,6 @@ import com.mooncowpines.KinoStats.DTO.TmdbCreditsResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieSearchResponse;
 import com.mooncowpines.KinoStats.DTO.TmdbMovieSearchResponseWrapper;
-import com.mooncowpines.KinoStats.Model.MovieRole;
-import com.mooncowpines.KinoStats.Model.Person;
 
 @Service
 public class TmdbService {

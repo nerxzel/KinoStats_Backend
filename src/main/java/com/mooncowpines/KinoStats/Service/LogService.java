@@ -165,7 +165,7 @@ public class LogService {
 
                 MovieRole newMovieRole = new MovieRole();
                 newMovieRole.setFilm(film);
-                newMovieRole.setJob(jobActor);
+                newMovieRole.setJob(jobDirector);
                 newMovieRole.setPerson(persona);
                 movieRoleRepository.save(newMovieRole);
             });

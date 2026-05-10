@@ -32,13 +32,7 @@ public class Film {
 
     private Integer releaseYear;
 
-    private String director;
-
-    private String cinematographer;
-
     private int lengthInMinutes;
-
-    private String countryOfOrigin;
 
     private LocalDate dateAddedToDB;
 
