@@ -23,6 +23,9 @@ public class SecurityConfig {
     
     @Autowired
     CustomUserDetailService userDetailService;
+    
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public SecurityConfig(CustomUserDetailService userDetailService){
         this.userDetailService = userDetailService;
@@ -43,14 +46,9 @@ public class SecurityConfig {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     public DaoAuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailService);
-        provider.setPasswordEncoder(passwordEncoder());
+        provider.setPasswordEncoder(passwordEncoder);
         return provider;
     }
 
