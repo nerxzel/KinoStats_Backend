@@ -15,7 +15,8 @@ public record TmdbMovieResponse (
     @JsonProperty("genres") List<Genre> genres,
     @JsonProperty("backdrop_path") String backdropPath,
     @JsonProperty("poster_path") String posterPath,
-    String overview
+    String overview,
+    @JsonProperty("production_companies") List<ProductionCompany> productionCompanies
 ){
     @JsonIgnoreProperties(ignoreUnknown = true)
     public record ProductionCountry(
@@ -25,6 +26,11 @@ public record TmdbMovieResponse (
 
     public record Genre(
         @JsonProperty("id") Long id,
+        String name
+    ) {}
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public record ProductionCompany(
         String name
     ) {}
 }

@@ -77,8 +77,9 @@ public class TmdbService {
                 .map(member -> member.name())
                 .collect(Collectors.joining(", ")),
             credits.cast().stream().limit(5)
-            .map(member -> member.name())
-            .collect(Collectors.joining(", "))
+                .map(member -> member.name())
+                .collect(Collectors.joining(", ")),
+            response.productionCompanies().stream().limit(1).map(company -> company.name()).collect(Collectors.joining())
         );
     }
 }

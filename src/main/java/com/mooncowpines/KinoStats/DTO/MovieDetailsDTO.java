@@ -12,7 +12,8 @@ public record MovieDetailsDTO (
     String posterPath,
     String overview,
     String director,
-    String actors
+    String actors,
+    String productionCompany
 ){    
 
 }
