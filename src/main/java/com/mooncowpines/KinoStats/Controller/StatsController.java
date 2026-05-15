@@ -1,7 +1,7 @@
 package com.mooncowpines.KinoStats.Controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,7 @@ public class StatsController {
     
     private final StatsService statsService;
 
-    @GetMapping("/get")
+    @PostMapping("/get")
     public ResponseEntity<?> getStats(@RequestBody StatsRequestDTO request){
         StatsResponseDTO stats = statsService.calculateStats(request);
         return ResponseEntity.ok().body(stats);
