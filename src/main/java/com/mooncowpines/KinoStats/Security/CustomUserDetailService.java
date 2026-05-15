@@ -10,14 +10,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.mooncowpines.KinoStats.Model.User;
-import com.mooncowpines.KinoStats.Repository.UserRepository;
 import com.mooncowpines.KinoStats.Service.UserService;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService{
-    
-    @Autowired
-    UserRepository userRepository;
 
     @Autowired
     UserService userService;
