@@ -1,9 +1,5 @@
 package com.mooncowpines.KinoStats.Controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,8 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mooncowpines.KinoStats.DTO.LogRequestDTO;
-import com.mooncowpines.KinoStats.Model.Log;
 import com.mooncowpines.KinoStats.Service.LogService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,5 +45,11 @@ public class LogController {
     public ResponseEntity<?> updateLog(@PathVariable Long id, @RequestBody LogRequestDTO request) {
         logService.updateLog(id, request);
         return ResponseEntity.ok(request);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteLog(@PathVariable Long id){
+        logService.deleteLog(id);
+        return ResponseEntity.notFound().build();
     }
 }

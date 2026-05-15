@@ -70,4 +70,8 @@ public class LogService {
         log.setFirstWatch(request.getFirstWatch());
         return logRepository.save(log);
     }
+
+    public void deleteLog(Long id){
+        logRepository.deleteById(id);
+    }
 }
