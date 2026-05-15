@@ -33,19 +33,9 @@ public class LogController {
 
     @GetMapping("/log/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
-        Optional<Log> log = logService.getLogById(id);
-
-        if (log.isPresent()){
-            return ResponseEntity.ok()
-                        .header("Header", "Values")
-                        .body(log.get());
-        }
-        else {
-            Map<String, String> errorBody = new HashMap<>();
-            errorBody.put("message", "Registro no encontrado");
-            errorBody.put("status", "404");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorBody);
-        }
+        return logService.getLogById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/add")
