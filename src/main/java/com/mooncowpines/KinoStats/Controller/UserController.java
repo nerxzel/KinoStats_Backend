@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.mooncowpines.KinoStats.DTO.UserDetailsUpdateDTO;
+import com.mooncowpines.KinoStats.DTO.UserPasswordUpdateDTO;
 import com.mooncowpines.KinoStats.Exceptions.ValidationException;
 import com.mooncowpines.KinoStats.Model.User;
 import com.mooncowpines.KinoStats.Service.UserService;
@@ -70,14 +72,16 @@ public class UserController {
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody User user) {
-        try {
-            userService.updateUser(user);
-            return ResponseEntity.ok().body("User updated succesfully!");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+    @PutMapping("/{id}/details")
+    public ResponseEntity<Void> updateUser(@PathVariable Long id, @Valid @RequestBody UserDetailsUpdateDTO dto) {
+        userService.updateUser(id, dto);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/{id}/password")
+    public ResponseEntity<Void> updatePassword(@PathVariable Long id, @Valid @RequestBody UserPasswordUpdateDTO dto) {
+        userService.updatePassword(id, dto);
+        return ResponseEntity.ok().build();
     }
     
     // @DeleteMapping("/{id}")

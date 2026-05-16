@@ -7,10 +7,14 @@ import java.util.regex.Pattern;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.mooncowpines.KinoStats.DTO.UserDetailsUpdateDTO;
+import com.mooncowpines.KinoStats.DTO.UserPasswordUpdateDTO;
+import com.mooncowpines.KinoStats.Exceptions.InvalidPasswordException;
 import com.mooncowpines.KinoStats.Exceptions.ValidationException;
 import com.mooncowpines.KinoStats.Model.User;
 import com.mooncowpines.KinoStats.Repository.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -50,23 +54,38 @@ public class UserService {
         movieListService.createWatchlist(newUser);
     }
 
-    public void updateUser(User updatedUser){
-        User user;
-        if (userRepository.findById(updatedUser.getId()).isPresent()){
-            user = userRepository.findById(updatedUser.getId()).get();
+    public void updateUser(Long id, UserDetailsUpdateDTO dto) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        if (!passwordEncoder.matches(dto.password(), user.getPassword())) {
+            throw new InvalidPasswordException();
         }
-        else {
-            throw new ValidationException("User not found");
-        }
-        if (userRepository.findByUsername(updatedUser.getUsername()).isPresent()) {
+
+        Optional<User> byUsername = userRepository.findByUsername(dto.username());
+        if (byUsername.isPresent() && !byUsername.get().getId().equals(user.getId())) {
             throw new ValidationException("Username already taken");
         }
-        if (userRepository.findByEmail(updatedUser.getEmail()).isPresent()) {
+
+        Optional<User> byEmail = userRepository.findByEmail(dto.email());
+        if (byEmail.isPresent() && !byEmail.get().getId().equals(user.getId())) {
             throw new ValidationException("Email already registered");
         }
-        user.setEmail(updatedUser.getEmail());
-        user.setUsername(updatedUser.getUsername());
-        user.setPassword(passwordEncoder.encode(updatedUser.getPassword()));
+
+        user.setEmail(dto.email());
+        user.setUsername(dto.username());
+        userRepository.save(user);
+    }
+
+    public void updatePassword(Long id, UserPasswordUpdateDTO dto) {
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        if (!passwordEncoder.matches(dto.oldPassword(), user.getPassword())) {
+            throw new InvalidPasswordException();
+        }
+
+        user.setPassword(passwordEncoder.encode(dto.newPassword()));
         userRepository.save(user);
     }
 
