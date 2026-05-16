@@ -96,7 +96,8 @@ public class MovieListService {
             list.getId(),
             list.getName(),
             movies.size(),
-            movies
+            movies,
+            list.getIsWatchlist()
         );
     }
 }

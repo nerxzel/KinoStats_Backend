@@ -1,5 +1,7 @@
 package com.mooncowpines.KinoStats.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -51,5 +53,11 @@ public class LogController {
     public ResponseEntity<?> deleteLog(@PathVariable Long id){
         logService.deleteLog(id);
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<Void> createBulk(@RequestBody List<LogRequestDTO> logs) {
+        logs.forEach(logService::addLog);
+        return ResponseEntity.ok().build();
     }
 }
