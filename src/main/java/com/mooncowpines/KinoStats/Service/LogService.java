@@ -74,4 +74,8 @@ public class LogService {
     public void deleteLog(Long id){
         logRepository.deleteById(id);
     }
+
+    public List<Log> findLatestLogs(Long id){
+        return logRepository.findTop6ByUserIdOrderByDateDesc(id);
+    }
 }

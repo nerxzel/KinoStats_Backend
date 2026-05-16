@@ -2,6 +2,7 @@ package com.mooncowpines.KinoStats.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -58,4 +59,6 @@ public interface LogRepository extends JpaRepository<Log, Long> {
             "AND l.date BETWEEN :startDate AND :endDate " +
             "GROUP BY (f.releaseYear / 10) * 10 ORDER BY decades")
     List<DecadeWatches> watchesByDecade(Long userId, LocalDate startDate, LocalDate endDate);
+
+    List<Log> findTop6ByUserIdOrderByDateDesc(Long userId);
 }
