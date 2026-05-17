@@ -1,8 +1,6 @@
 package com.mooncowpines.KinoStats.Controller;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mooncowpines.KinoStats.DTO.LogRequestDTO;
-import com.mooncowpines.KinoStats.Model.Log;
 import com.mooncowpines.KinoStats.Service.LogService;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,19 +32,9 @@ public class LogController {
 
     @GetMapping("/log/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id){
-        Optional<Log> log = logService.getLogById(id);
-
-        if (log.isPresent()){
-            return ResponseEntity.ok()
-                        .header("Header", "Values")
-                        .body(log.get());
-        }
-        else {
-            Map<String, String> errorBody = new HashMap<>();
-            errorBody.put("message", "Registro no encontrado");
-            errorBody.put("status", "404");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorBody);
-        }
+        return logService.getLogById(id)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping("/add")
@@ -58,5 +47,17 @@ public class LogController {
     public ResponseEntity<?> updateLog(@PathVariable Long id, @RequestBody LogRequestDTO request) {
         logService.updateLog(id, request);
         return ResponseEntity.ok(request);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteLog(@PathVariable Long id){
+        logService.deleteLog(id);
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<Void> createBulk(@RequestBody List<LogRequestDTO> logs) {
+        logs.forEach(logService::addLog);
+        return ResponseEntity.ok().build();
     }
 }

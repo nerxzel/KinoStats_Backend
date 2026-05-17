@@ -6,7 +6,8 @@ public record MovieListDTO(
     Long movieListId,
     String name,
     Integer movieCount,
-    List<MovieCardDTO> movies
+    List<MovieCardDTO> movies,
+    Boolean isWatchlist
 ) {
     
 }

@@ -36,8 +36,9 @@ public class LogService {
         return logsDTDtos;
     }
 
-    public Optional<Log> getLogById(Long id) {
-        return logRepository.findById(id);
+    public Optional<LogDTO> getLogById(Long id) {
+        return logRepository.findById(id)
+            .map(LogDTO::logToDto);
     }
 
     public void addLog(LogRequestDTO logRequest) {
@@ -62,11 +63,19 @@ public class LogService {
     }
 
     public Log updateLog(Long id, LogRequestDTO request) {
-        Log log = getLogById(id).orElseThrow();
+        Log log = logRepository.findById(id).orElseThrow();
         log.setDate(request.getDate());
         log.setReview(request.getReview());
         log.setRating(request.getRating());
         log.setFirstWatch(request.getFirstWatch());
         return logRepository.save(log);
+    }
+
+    public void deleteLog(Long id){
+        logRepository.deleteById(id);
+    }
+
+    public List<Log> findLatestLogs(Long id){
+        return logRepository.findTop6ByUserIdOrderByDateDesc(id);
     }
 }

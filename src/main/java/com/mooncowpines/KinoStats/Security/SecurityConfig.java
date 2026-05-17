@@ -5,12 +5,10 @@ import static org.springframework.security.config.Customizer.withDefaults;
 import java.util.Arrays;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -21,23 +19,14 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @Configuration
 public class SecurityConfig {
     
-    @Autowired
-    CustomUserDetailService userDetailService;
-    
-    @Autowired
-    PasswordEncoder passwordEncoder;
-
-    public SecurityConfig(CustomUserDetailService userDetailService){
-        this.userDetailService = userDetailService;
-    }
-
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, DaoAuthenticationProvider authProvider) throws Exception{
         http
             .cors(withDefaults())
             .csrf(csrf -> csrf.disable())
+            .authenticationProvider(authProvider)
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/v1/users/add").permitAll()
+                .requestMatchers("/api/v1/users/add", "/api/v1/auth/login").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic(withDefaults());
@@ -46,7 +35,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public DaoAuthenticationProvider authenticationProvider(){
+    public DaoAuthenticationProvider authenticationProvider(CustomUserDetailService userDetailService, PasswordEncoder passwordEncoder){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailService);
         provider.setPasswordEncoder(passwordEncoder);
         return provider;

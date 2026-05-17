@@ -35,7 +35,12 @@ public class StatsService {
 
         Integer moviesWatched = logRepository.countMoviesWatched(request.userId(), starDate, endDate);
         Integer watchTimeMinutes = logRepository.sumWatchTime(request.userId(), starDate, endDate);
-        Integer watchTimeHours = Math.round(watchTimeMinutes/60);
+        Integer watchTimeHours;
+        if (watchTimeMinutes != null){
+            watchTimeHours = Math.round(watchTimeMinutes/60);
+        } else {
+            watchTimeHours = 0;
+        }
         List<TypeWatches> genreWatches = logRepository.watchesByGenre(request.userId(), starDate, endDate);
         List<TypeWatches> countryWatches = logRepository.watchesByCountry(request.userId(), starDate, endDate);
         List<TypeWatches> directorWatches = logRepository.watchesByPerson(request.userId(), 1L, starDate, endDate).stream().limit(5).toList();

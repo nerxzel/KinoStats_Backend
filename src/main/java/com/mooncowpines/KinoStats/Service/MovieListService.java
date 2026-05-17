@@ -1,6 +1,7 @@
 package com.mooncowpines.KinoStats.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -82,16 +83,21 @@ public class MovieListService {
         movieListRepository.deleteById(listId);
     }
 
+    public Optional<MovieList> getWatchList(Long userId){
+        return movieListRepository.findByUserIdAndIsWatchlistTrue(userId);
+    }
+
     private MovieListDTO toDTO(MovieList list) {
         List<MovieCardDTO> movies = list.getFilms().stream()
-            .map(f -> new MovieCardDTO(f.getId(), f.getTitle(), f.getPosterPath()))
+            .map(f -> new MovieCardDTO(f.getId(), f.getTitle(), f.getPosterPath(), f.getReleaseYear(), f.getLengthInMinutes()))
             .toList();
 
         return new MovieListDTO(
             list.getId(),
             list.getName(),
             movies.size(),
-            movies
+            movies,
+            list.getIsWatchlist()
         );
     }
 }

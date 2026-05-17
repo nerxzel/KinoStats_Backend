@@ -58,4 +58,6 @@ public interface LogRepository extends JpaRepository<Log, Long> {
             "AND l.date BETWEEN :startDate AND :endDate " +
             "GROUP BY (f.releaseYear / 10) * 10 ORDER BY decades")
     List<DecadeWatches> watchesByDecade(Long userId, LocalDate startDate, LocalDate endDate);
+
+    List<Log> findTop6ByUserIdOrderByDateDesc(Long userId);
 }

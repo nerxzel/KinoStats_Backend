@@ -75,7 +75,11 @@ public class TmdbService {
             response.overview(),
             credits.crew().stream().filter(member -> member.job().equals("Director"))
                 .map(member -> member.name())
-                .collect(Collectors.joining(", "))
+                .collect(Collectors.joining(", ")),
+            credits.cast().stream().limit(5)
+                .map(member -> member.name())
+                .collect(Collectors.joining(", ")),
+            response.productionCompanies().stream().limit(1).map(company -> company.name()).collect(Collectors.joining())
         );
     }
 }
