@@ -15,6 +15,7 @@ import com.mooncowpines.KinoStats.Repository.Projections.TypeWatches;
 @Repository
 public interface LogRepository extends JpaRepository<Log, Long> {
     List<Log> findByUserId(Long userId);
+    List<Log> findByUserIdOrderByDateDesc(Long userId);
 
     @Query("SELECT COUNT(l) FROM Log l WHERE l.user.id = :userId " +
             "AND l.date BETWEEN :startDate AND :endDate")
@@ -49,6 +50,8 @@ public interface LogRepository extends JpaRepository<Log, Long> {
     List<TypeWatches> watchesByPerson(Long userId, Long jobId, LocalDate startDate, LocalDate endDate);
 
     @Query("SELECT rating as rating, COUNT(l) as amount FROM Log l " +
+            "WHERE l.user.id = :userId " +
+            "AND l.date BETWEEN :startDate AND :endDate " +
             "GROUP BY rating")
     List<RatingsCount> countsByRating(Long userId, LocalDate startDate, LocalDate endDate);
 
