@@ -29,7 +29,7 @@ public class LogService {
     }
 
     public List<LogDTO> getLogsByUserId(Long id) {
-        List<Log> logs = logRepository.findByUserId(id);
+        List<Log> logs = logRepository.findByUserIdOrderByDateDesc(id);
         List<LogDTO> logsDTDtos = logs.stream()
                 .map(LogDTO::logToDto)
                 .toList();

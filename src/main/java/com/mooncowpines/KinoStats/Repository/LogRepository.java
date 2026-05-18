@@ -15,6 +15,7 @@ import com.mooncowpines.KinoStats.Repository.Projections.TypeWatches;
 @Repository
 public interface LogRepository extends JpaRepository<Log, Long> {
     List<Log> findByUserId(Long userId);
+    List<Log> findByUserIdOrderByDateDesc(Long userId);
 
     @Query("SELECT COUNT(l) FROM Log l WHERE l.user.id = :userId " +
             "AND l.date BETWEEN :startDate AND :endDate")
