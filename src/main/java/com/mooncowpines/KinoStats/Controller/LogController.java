@@ -52,7 +52,7 @@ public class LogController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteLog(@PathVariable Long id){
         logService.deleteLog(id);
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/bulk")
