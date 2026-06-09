@@ -50,7 +50,7 @@ public class LogService {
         Log log = new Log();
         log.setDate(logRequest.getDate());
         log.setReview(logRequest.getReview());
-        log.setRating(logRequest.getRating());
+        log.setRating(Math.clamp(logRequest.getRating(), 0.5f, 5));
         log.setFilm(film);
         log.setUser(user);
         log.setFirstWatch(logRequest.getFirstWatch());

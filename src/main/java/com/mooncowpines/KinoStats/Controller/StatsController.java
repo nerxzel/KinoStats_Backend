@@ -24,4 +24,10 @@ public class StatsController {
         StatsResponseDTO stats = statsService.calculateStats(request);
         return ResponseEntity.ok().body(stats);
     }
+
+    @PostMapping("/get")
+    public ResponseEntity<?> getWrapped(@RequestBody StatsRequestDTO request){
+        StatsResponseDTO stats = statsService.calculateStats(request);
+        return ResponseEntity.ok().body(stats);
+    }
 }
