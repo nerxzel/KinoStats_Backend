@@ -25,7 +25,7 @@ public class StatsController {
         return ResponseEntity.ok().body(stats);
     }
 
-    @PostMapping("/get")
+    @PostMapping("/wrapped")
     public ResponseEntity<?> getWrapped(@RequestBody StatsRequestDTO request){
         StatsResponseDTO stats = statsService.calculateStats(request);
         return ResponseEntity.ok().body(stats);
