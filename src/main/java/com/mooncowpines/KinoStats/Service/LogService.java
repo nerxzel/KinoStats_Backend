@@ -1,5 +1,6 @@
 package com.mooncowpines.KinoStats.Service;
 
+import com.mooncowpines.KinoStats.DTO.LoginRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,7 +51,12 @@ public class LogService {
         Log log = new Log();
         log.setDate(logRequest.getDate());
         log.setReview(logRequest.getReview());
-        log.setRating(Math.clamp(logRequest.getRating(), 0.5f, 5));
+        if (logRequest.getRating() != null){
+            log.setRating(Math.clamp(logRequest.getRating(), 0.5f, 5));
+        }
+        else{
+            log.setRating(null);
+        }
         log.setFilm(film);
         log.setUser(user);
         log.setFirstWatch(logRequest.getFirstWatch());
@@ -66,7 +72,12 @@ public class LogService {
         Log log = logRepository.findById(id).orElseThrow();
         log.setDate(request.getDate());
         log.setReview(request.getReview());
-        log.setRating(request.getRating());
+        if (request.getRating() != null){
+            log.setRating(Math.clamp(request.getRating(), 0.5f, 5));
+        }
+        else{
+            log.setRating(null);
+        }
         log.setFirstWatch(request.getFirstWatch());
         return logRepository.save(log);
     }

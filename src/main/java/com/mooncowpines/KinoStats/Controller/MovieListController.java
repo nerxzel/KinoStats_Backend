@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,6 +41,11 @@ public class MovieListController {
     @GetMapping("/{listId}")
     public ResponseEntity<MovieListDTO> getList(@PathVariable Long listId) {
         return ResponseEntity.ok(movieListService.getList(listId));
+    }
+
+    @PutMapping("/{listId}")
+    public ResponseEntity<MovieListDTO> updateList(@PathVariable Long listId, @RequestBody MovieListRequestDTO request) {
+        return ResponseEntity.ok(movieListService.updateList(listId, request));
     }
 
     @PostMapping("/add")

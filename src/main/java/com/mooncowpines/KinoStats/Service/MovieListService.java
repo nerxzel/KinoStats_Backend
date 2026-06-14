@@ -100,4 +100,12 @@ public class MovieListService {
             list.getIsWatchlist()
         );
     }
+
+    public MovieListDTO updateList(Long listId, MovieListRequestDTO request) {
+        MovieList list = movieListRepository.findById(listId)
+            .orElseThrow(() -> new EntityNotFoundException("List not found"));
+        list.setName(request.name());
+        list = movieListRepository.save(list);
+        return toDTO(list);
+    }
 }
