@@ -1,13 +1,17 @@
 package com.mooncowpines.KinoStats.Service;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.mooncowpines.KinoStats.DTO.MovieCardDTO;
 import com.mooncowpines.KinoStats.DTO.StatsRequestDTO;
 import com.mooncowpines.KinoStats.DTO.StatsResponseDTO;
+import com.mooncowpines.KinoStats.DTO.WrapRequestDTO;
+import com.mooncowpines.KinoStats.DTO.WrapUpDTO;
 import com.mooncowpines.KinoStats.Repository.LogRepository;
 import com.mooncowpines.KinoStats.Repository.Projections.DecadeWatches;
 import com.mooncowpines.KinoStats.Repository.Projections.RatingsCount;
@@ -49,5 +53,27 @@ public class StatsService {
         List<DecadeWatches> decadeWatches = logRepository.watchesByDecade(request.userId(), starDate, endDate);
 
         return new StatsResponseDTO(moviesWatched, watchTimeMinutes, watchTimeHours, genreWatches, countryWatches, directorWatches, actorWatches, ratingsCounts, decadeWatches);
+    }
+
+    public WrapUpDTO getWrap(WrapRequestDTO request){
+        LocalDate starDate = LocalDate.of(request.year(), Month.JANUARY, 1);
+        LocalDate endDate = LocalDate.of(request.year(), Month.DECEMBER, 31);
+
+        Integer moviesWatched = logRepository.countMoviesWatched(request.userId(), starDate, endDate);
+        Integer watchTimeMinutes = logRepository.sumWatchTime(request.userId(), starDate, endDate);
+        List<TypeWatches> genreWatches = logRepository.watchesByGenre(request.userId(), starDate, endDate).stream().limit(3).toList();
+        List<TypeWatches> directorWatches = logRepository.watchesByPerson(request.userId(), 1L, starDate, endDate).stream().limit(3).toList();
+        List<TypeWatches> actorWatches = logRepository.watchesByPerson(request.userId(), 2L, starDate, endDate).stream().limit(3).toList();
+        MovieCardDTO firstWatched = logRepository
+            .findFirstByUserIdAndDateBetweenOrderByDateAsc(request.userId(), starDate, endDate)
+            .map(log -> MovieCardDTO.fromFilm(log.getFilm()))
+            .orElse(null);
+
+        MovieCardDTO lastWatched = logRepository
+            .findFirstByUserIdAndDateBetweenOrderByDateDesc(request.userId(), starDate, endDate)
+            .map(log -> MovieCardDTO.fromFilm(log.getFilm()))
+            .orElse(null);
+
+        return new WrapUpDTO(moviesWatched, watchTimeMinutes, firstWatched, lastWatched, genreWatches, directorWatches, actorWatches);
     }
 }

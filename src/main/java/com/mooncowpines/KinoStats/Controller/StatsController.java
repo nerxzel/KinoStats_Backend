@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mooncowpines.KinoStats.DTO.StatsRequestDTO;
 import com.mooncowpines.KinoStats.DTO.StatsResponseDTO;
+import com.mooncowpines.KinoStats.DTO.WrapRequestDTO;
+import com.mooncowpines.KinoStats.DTO.WrapUpDTO;
 import com.mooncowpines.KinoStats.Service.StatsService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,8 +28,8 @@ public class StatsController {
     }
 
     @PostMapping("/wrapped")
-    public ResponseEntity<?> getWrapped(@RequestBody StatsRequestDTO request){
-        StatsResponseDTO stats = statsService.calculateStats(request);
+    public ResponseEntity<?> getWrapped(@RequestBody WrapRequestDTO request){
+        WrapUpDTO stats = statsService.getWrap(request);
         return ResponseEntity.ok().body(stats);
     }
 }
