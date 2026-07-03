@@ -29,7 +29,7 @@
 	<properties>
 		<java.version>21</java.version>
 		<sonar.organization>mooncow-pines</sonar.organization>
-        <sonar.projectKey>AQUI_TU_PROJECT_KEY_DEL_BACKEND</sonar.projectKey>
+        <sonar.projectKey>nerxzel_KinoStats_Backend</sonar.projectKey>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         
         <sonar.coverage.jacoco.xmlReportPaths>target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
